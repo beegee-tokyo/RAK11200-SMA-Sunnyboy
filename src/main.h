@@ -209,3 +209,15 @@ extern bool rtc_has_time;
 bool init_rak15005(void);
 void read_rak15005(uint32_t memaddr, uint8_t *obj, uint16_t size);
 bool write_rak15005(uint32_t memaddr, uint8_t *obj, uint16_t size);
+
+bool init_prefs(void);
+void read_prefs(uint32_t memaddr, uint8_t *obj, uint16_t size);
+bool write_prefs(uint32_t memaddr, uint8_t *obj, uint16_t size);
+
+bool init_fram(void);
+void read_fram(uint32_t memaddr, uint8_t *obj, uint16_t size);
+bool write_fram(uint32_t memaddr, uint8_t *obj, uint16_t size);
+
+extern uint8_t fram_type;
+extern uint32_t g_month_energy_addr;
+extern uint32_t g_year_energy_addr;

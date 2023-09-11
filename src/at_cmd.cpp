@@ -952,7 +952,7 @@ static int at_exec_sma_month(char *str)
 
 	g_month_energy = new_month_val;
 	fram_val.val_32 = g_month_energy;
-	write_rak15005(g_month_energy_addr, fram_val.val_8, 4);
+	write_fram(g_month_energy_addr, fram_val.val_8, 4);
 
 	return 0;
 }
@@ -975,7 +975,7 @@ static int at_exec_sma_year(char *str)
 
 	g_year_energy = new_year_val;
 	fram_val.val_32 = g_year_energy;
-	write_rak15005(g_year_energy_addr, fram_val.val_8, 4);
+	write_fram(g_year_energy_addr, fram_val.val_8, 4);
 
 	return 0;
 }

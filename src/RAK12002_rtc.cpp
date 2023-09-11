@@ -38,7 +38,7 @@ bool init_rak12002(void)
 	rtc.writeToRegister(0x35, 0x00);
 	rtc.writeToRegister(0x37, 0xB4); // Direct Switching Mode (DSM): when VDD < VBACKUP, switchover occurs from VDD to VBACKUP
 
-	rtc.useEEPROM(false);
+	// rtc.useEEPROM(false);
 
 	rtc.set24HourMode(); // Set the device to use the 24hour format (default) instead of the 12 hour format
 
@@ -129,7 +129,7 @@ bool write_rak12002_eeprom(uint8_t address, uint8_t *data, uint8_t size)
 
 bool read_rak12002_eeprom(uint8_t address, uint8_t *data, uint8_t size)
 {
-	rtc.useEEPROM(true);
+	// rtc.useEEPROM(true);
 
 	time_t wait_start = millis();
 	while (rtc.isEEPROMBusy())
@@ -137,7 +137,7 @@ bool read_rak12002_eeprom(uint8_t address, uint8_t *data, uint8_t size)
 		delay(10);
 		if ((millis() - wait_start) > 250)
 		{
-			rtc.useEEPROM(false);
+			// rtc.useEEPROM(false);
 			return false;
 		}
 	}
@@ -148,7 +148,7 @@ bool read_rak12002_eeprom(uint8_t address, uint8_t *data, uint8_t size)
 		delay(100);
 	}
 
-	rtc.useEEPROM(false);
+	// rtc.useEEPROM(false);
 	return true;
 }
 

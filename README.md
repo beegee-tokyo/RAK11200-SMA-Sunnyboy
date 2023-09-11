@@ -19,7 +19,7 @@ This project is an update to the original [MHC-Sunnyboy-RAK13300](https://github
 
 The UDP broadcast of the original application was removed as the new local visualization option doesn't require it.
 
-Different to the original application, the daily and monthly production values are stored locally in the FRAM module to make it easier for the visualization platform.
+The monthly and yearly production values are stored locally in the FRAM module to make it easier for the visualization platform.
 
 The RTC was added to have the proper times to update and save the daily, monthly and yearly production values.
 
@@ -39,14 +39,15 @@ This project is made with PlatformIO!
 
 The system is build with modules from the [RAKwireless WisBlock](https://docs.rakwireless.com/Product-Categories/WisBlock/) product line. 
 - [WisBlock RAK5005-O](https://docs.rakwireless.com/Product-Categories/WisBlock/RAK5005-O/Overview/) Base board
-- [WisBlock RAK11200](https://docs.rakwireless.com/Product-Categories/WisBlock/RAK11200/Overview/) Core module to connect to the SMA Sunnyboy inverter and for the UDP broadcasting.
+- [WisBlock RAK11200](https://docs.rakwireless.com/Product-Categories/WisBlock/RAK11200/Overview/) Core module to connect to the SMA Sunnyboy inverter over WiFi.
 - [WisBlock RAK13300](https://docs.rakwireless.com/Product-Categories/WisBlock/RAK13300/Overview) SX1262 LoRa module for LoRaWAN transmissions
 - [WisBlock RAK12002](https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12002/Overview/) RTC module
 - [WisBlock RAK15005](https://docs.rakwireless.com/Product-Categories/WisBlock/RAK15004/Overview) 128kByte FRAM module (similar to the RAK15004 in the link)
+
 ----
 
 ## Software
-The software on the RAK11200 handles the communication over WiFi to read data from the SMA Sunnyboy inverter, broadcasts the values over WiFi UDP and sends the data as well to a LoRaWAN server using the RAK13300 LoRa module
+The software on the RAK11200 handles the communication over WiFi to read data from the SMA Sunnyboy inverter and sends the data to a LoRaWAN server using the RAK13300 LoRa module. It summarizes the daily production to monthly and the monthly production to yearly and stores them in the FRAM RAK15005. At the end of each month the values of the monthly and yearly production are sent one time. The RTC RAK12002 is used to get the correct time and date to send the data once a day and once a month.     
 
 ### IDE, BSP's and libraries:
 - [PlatformIO](https://platformio.org/install)
@@ -60,6 +61,8 @@ The software on the RAK11200 handles the communication over WiFi to read data fr
 - [Melopero RV3028](https://github.com/melopero/Melopero_RV-3028_Arduino_Library)
 - [CayenneLPP](https://github.com/ElectronicCats/CayenneLPP)
 - [FRAM_I2C](https://github.com/RobTillaart/FRAM_I2C)
+
+The libraries are installed automatically by PlatformIO.    
 
 ----
 
