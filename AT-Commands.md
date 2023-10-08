@@ -44,9 +44,9 @@ The Serial port is setup for 115200 baud, 8N1. It cannot be changed by AT comman
 * [AT+VER](#atver) Get firmware version
 * [AT+SMA](#atsma) Get/set SMA inverter IP address
 * [AT+SMON](#atsmon) Get/set montly production
-* [AT+SYEAR](atsyear) Get/set yearly production
-* [AT+RTC](atrtc) Get/set RTC time and date
-* [Appendix](#appendix-1)
+* [AT+SYEAR](#atsyear) Get/set yearly production
+* [AT+RTC](#atrtc) Get/set RTC time and date
+* [Appendix](#appendix)
 	* [Appendix I Data Rate by Region](#appendix-i-data-rate-by-region)
 	* [Appendix II TX Power by Region](#appendix-ii-tx-power-by-region)
 	* [Appendix III Maximum Transmission Load by Region](#appendix-iii-maximum-transmission-load-by-region)
