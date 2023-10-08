@@ -38,11 +38,17 @@ This project is made with PlatformIO!
 ## Hardware 
 
 The system is build with modules from the [RAKwireless WisBlock](https://docs.rakwireless.com/Product-Categories/WisBlock/) product line. 
-- [WisBlock RAK5005-O](https://docs.rakwireless.com/Product-Categories/WisBlock/RAK5005-O/Overview/) Base board
+- [WisBlock RAK19007](https://docs.rakwireless.com/Product-Categories/WisBlock/RAK19007/Overview/) Base board
 - [WisBlock RAK11200](https://docs.rakwireless.com/Product-Categories/WisBlock/RAK11200/Overview/) Core module to connect to the SMA Sunnyboy inverter over WiFi.
 - [WisBlock RAK13300](https://docs.rakwireless.com/Product-Categories/WisBlock/RAK13300/Overview) SX1262 LoRa module for LoRaWAN transmissions
 - [WisBlock RAK12002](https://docs.rakwireless.com/Product-Categories/WisBlock/RAK12002/Overview/) RTC module
-- [WisBlock RAK15005](https://docs.rakwireless.com/Product-Categories/WisBlock/RAK15004/Overview) 128kByte FRAM module (similar to the RAK15004 in the link)
+- [WisBlock RAK15005](https://docs.rakwireless.com/Product-Categories/WisBlock/RAK15005/Overview) 128kByte FRAM module
+
+For the enclosure I designed one for 3D printing that is just large enough for the WisBlock and display.
+
+<center><img src="./assets/device.jpg" alt="Device" width=75%></center>
+
+The 3D files for this enclosure are in the [enclosure](./enclosure) folder of this repo.    
 
 ----
 
@@ -93,8 +99,50 @@ A detailed manual for the AT commands are in [AT-Commands.md](./AT-Commands.md)
 ----
 
 # Setting up SMA Sunnyboy IP address and connection credentials
-This is a _**TODO**_. Right now the IP address and password of the SMA Sunnyboy inverter are hard-coded in the [main.cpp](./MHC-Sunnyboy-RAK13300/src/main.cpp). Because the data set used to setup the WiFi credentials is not flexible, I cannot use it for additional details. 
-The plan is to implement the setup of the SMA Sunnyboy IP address and password over BLE UART.
+The IP address of the SMA Sunnyboy converter can be set and read with AT command.    
+
+Query SMA IP address
+```
+AT+SMA=?
+```
+Set SMA IP address
+```
+AT+SMA=192.168.64.64
+```
+
+# Checking the saved monthly and yearly production
+The saved monthly and daily production values can be read or pre-set with AT command.    
+
+Query monthly production    
+```
+AT+SMON=?
+```
+Set monthly production in Wh (only integer values possible)    
+```
+AT+SMON=60402
+```
+
+Query yearly production    
+```
+AT+SYEAR=?
+```
+Set yearly production in Wh (only integer values possible)    
+```
+AT+SYEAR=240000
+```
+
+# Setting the RTC time and date
+The RTC should be setup to the correct date and time to make sure the daily, monthly and yearly production values are calculated correct.
+
+Query RTC date and time    
+```
+AT+RTC=?
+```
+Set RTC date and time (single digit, no leading zeros)    
+Format year month date hour (24h format) minute
+```
+AT+RTC=2023:10:8:14:23
+```
 
 ----
 
