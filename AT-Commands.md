@@ -126,7 +126,7 @@ AT+CFM      Get or set the confirm mode
 AT+JOIN     Join network
 AT+NJS      Get the join status
 AT+NJM      Get or set the network join mode
-AT+SENDFREQ Get or Set the automatic send time
+AT+SENDINT  Get or Set the automatic send time
 AT+ADR      Get or set the adaptive data rate setting
 AT+CLASS    Get or set the device class
 AT+DR       Get or Set the Tx DataRate=[0..7]
@@ -138,7 +138,9 @@ AT+RSSI     Last RX packet RSSI
 AT+SNR      Last RX packet SNR
 AT+VER      Get SW version
 AT+SMA      Get and Set SMA inverter IP address
-
+AT+SMON     Get and Set current month production so far
+AT+SYEAR    Get and Set current year production so far
+AT+RTC      Get and Set RTC time and date
 +++++++++++++++
 
 OK
@@ -192,7 +194,7 @@ This command allows the user to access and configure the APPEUI.
 ```
 AT+APPEUI?
 
-+APPEUI:"Get or set the application EUI"
++APPEUI:Get or set the application EUI
 OK
 
 AT+APPEUI=?
@@ -230,7 +232,7 @@ This command allows the user to access and configure the APPKEY.
 ```
 AT+APPKEY?
 
-+APPKEY:"Get or set the application key"
++APPKEY:Get or set the application key
 OK
 
 AT+APPKEY=?
@@ -268,7 +270,7 @@ This command allows the user to access and configure the device EUI or DEVEUI.
 ```
 AT+DEVEUI?
 
-+DEVEUI:"Get or set the device EUI"
++DEVEUI:Get or set the device EUI
 OK
 
 AT+DEVEUI=?
@@ -306,7 +308,7 @@ This command allows the user to access and configure the application session key
 ```
 AT+APPSKEY?
 
-+APPSKEY:"Get or set the application session key"
++APPSKEY:Get or set the application session key
 OK
 
 AT+APPSKEY=?
@@ -344,7 +346,7 @@ This command allows the user to access and configure the network session keys or
 ```
 AT+NWKSKEY?
 
-+NWKSKEY:"Get or Set the network session key"
++NWKSKEY:Get or Set the network session key
 OK
 
 AT+NWKSKEY=?
@@ -382,7 +384,7 @@ This command allows the user to access and configure the device address or DEVAD
 ```
 AT+DEVADDR?
 
-+DEVADDR:"Get or set the device address"
++DEVADDR:Get or set the device address
 OK
 
 AT+DEVADDR=?
@@ -421,7 +423,7 @@ This command allows the user to access and configure type of payload of the devi
 ```
 AT+CFM?
 
-+CFM:"Get or set the confirm mode"
++CFM:Get or set the confirm mode
 OK
 
 AT+CFM=?
@@ -467,7 +469,7 @@ _**Param3 is not supported yet and is fixed to 30s always**_
 ```
 AT+JOIN?
 
-+JOIN:"Join network"
++JOIN:Join network
 OK
 
 AT+JOIN=?
@@ -504,7 +506,7 @@ This command allows the user to check the status of the devices if it is connect
 ```
 AT+NJS?
 
-+NJS:"Get the join status"
++NJS:Get the join status
 OK
 
 AT+NJS=?
@@ -534,7 +536,7 @@ This command allows the user to access and configure the activation method of th
 ```
 AT+NJM?
 
-+NJM:"Get or set the network join mode"
++NJM:Get or set the network join mode
 OK
 
 AT+NJM=?
@@ -555,7 +557,7 @@ AT+NJM=2
 
 ----
 
-## AT+SENDFREQ
+## AT+SENDINT
 
 Description: Set the automatic transmission period
 
@@ -563,24 +565,24 @@ This command allows to set the period in seconds between automatic packet transm
 
 | Command                    | Input Parameter | Return Value                                                  | Return Code              |
 | -------------------------- | --------------- | ------------------------------------------------------------- | ------------------------ |
-| AT+SENDFREQ?                    | -               | `AT+SENDFREQ: Get or Set the automatic send time` | `OK`                     |
-| AT+SENDFREQ=?                   | -               | `<period in seconds>`                                                    | `OK`                     |
-| AT+SENDFREQ=`<Input Parameter>` | `<period in seconds>`      | -                                                             | `OK` or `AT_PARAM_ERROR` |
+| AT+SENDINT?                    | -               | `AT+SENDINT: Get or Set the automatic send time` | `OK`                     |
+| AT+SENDINT=?                   | -               | `<period in seconds>`                                                    | `OK`                     |
+| AT+SENDINT=`<Input Parameter>` | `<period in seconds>`      | -                                                             | `OK` or `AT_PARAM_ERROR` |
 
 **Examples**:
 
 ```
-AT+SENDFREQ?
+AT+SENDINT?
 
-+SENDFREQ:"Get or Set the automatic send time"
++SENDINT:Get or Set the automatic send time
 OK
 
-AT+SENDFREQ=?
+AT+SENDINT=?
 
-+SENDFREQ:60
++SENDINT:60
 OK
 
-AT+SENDFREQ=60
+AT+SENDINT=60
 
 OK
 ```
@@ -606,7 +608,7 @@ This command allows the user to access and configure the adaptive data rate of t
 ```
 AT+ADR?
 
-+ADR:"Get or set the adaptive data rate setting"
++ADR:Get or set the adaptive data rate setting
 OK
 
 AT+ADR=?
@@ -646,7 +648,7 @@ _**This FW of the device supports the LoRaWAN® V1.0.2 stack**_
 ```
 AT+CLASS?
 
-+CLASS:"Get or set the device class"
++CLASS:Get or set the device class
 OK
 
 AT+CLASS=?
@@ -686,7 +688,7 @@ Check [Appendix I](#appendix-i-data-rate-by-region) for the input parameter depe
 ```
 AT+DR?
 
-+DR:"Get or Set the Tx DataRate=[0..7]"
++DR:Get or Set the Tx DataRate=[0..7]
 OK
 
 AT+DR=?
@@ -724,7 +726,7 @@ For example, at EU868, a value of 2 represents **MaxEIRP - 4 dB** where MaxEIRP 
 ```
 AT+TXP?
 
-+TXP:"Get or set the transmit power"
++TXP:Get or set the transmit power
 OK
 
 AT+TXP=?
@@ -770,7 +772,7 @@ This command allows the user to access and configure the regional frequency band
 ```
 AT+BAND?
 
-+BAND:"Get and Set number corresponding to active regions"
++BAND:Get and Set number corresponding to active regions
 OK
 
 AT+BAND=?
@@ -816,7 +818,7 @@ Channel mask can only be set for following regions: AU915, CN470 and US915
 ```
 AT+MASK?
 
-+MASK: "Get and Set channels mask"
++MASK:Get and Set channels mask
 OK
 
 AT+MASK=?
@@ -855,7 +857,7 @@ _**The battery level is returned as a value between 0 and 255**_
 ```
 AT+BAT?
 
-+BAT:"Get battery level"
++BAT:Get battery level
 OK
 
 AT+BAT=?
@@ -884,7 +886,7 @@ This command allows the user to get RSSI value of the last packet received.
 ```
 AT+RSSI?
 
-+RSSI:"Last RX packet RSSI"
++RSSI:Last RX packet RSSI
 OK
 
 AT+RSSI=?
@@ -913,7 +915,7 @@ This command allows the user to get SNR value of the last packet received.
 ```
 AT+SNR?
 
-+SNR:"Last RX packet SNR"
++SNR:Last RX packet SNR
 OK
 
 AT+SNR=?
@@ -942,7 +944,7 @@ This command allows the user to get firmware version installed on the device.
 ```
 AT+VER?
 
-+VER:"Get SW version"
++VER:Get SW version
 OK
 
 AT+VER=?
@@ -972,7 +974,7 @@ This command allows the user to check the IP address of the Sunny Inverter and t
 ```
 AT+SMA?
 
-+SMA:"Get and Set SMA inverter IP address"
++SMA:Get and Set SMA inverter IP address
 OK
 
 AT+SMA=?
@@ -982,6 +984,114 @@ OK
 
 AT+SMA=192:168:1:127
 192:168:1:127
+
+OK
+```
+
+[Back](#content)    
+
+----
+
+## AT+SMON
+
+Description: Set/Get the monthly production
+
+This command allows the user to check the current monthly production of the Sunny Inverter or to set a specific value.    
+The values are in Wh
+
+| Command                         | Input Parameter      | Return Value                                  | Return Code |
+| --------------------------      | ---------------      | -----------------------------------------     | ----------- |
+| AT+SMON?                        | -                    | `AT+SMON: Get/set current month production so far` | `OK`        |
+| AT+SMON=?                       | -                    | *nnnnnnnn*                                    | `OK`        |
+| AT+SMON=`<Input Parameter>`     | `<Valid Wh value>`   |                                               | `OK` or `AT_PARAM_ERROR` |
+
+**Examples**:
+
+```
+AT+SMON?
+
++SMON:Get/set current month production so far
+OK
+
+AT+SMON=?
+
++SMA=60410
+OK
+
+AT+SMA=62300
+62300
+
+OK
+```
+
+[Back](#content)    
+
+----
+
+## AT+SYEAR
+
+Description: Set/Get the yearly production
+
+This command allows the user to check the current yearly production of the Sunny Inverter or to set a specific value.    
+The values are in Wh
+
+| Command                         | Input Parameter      | Return Value                                  | Return Code |
+| --------------------------      | ---------------      | -----------------------------------------     | ----------- |
+| AT+SYEAR?                        | -                    | `AT+SYEAR: Get and Set SMA inverter IP address` | `OK`        |
+| AT+SYEAR=?                       | -                    | *nnnnnnnn*                                    | `OK`        |
+| AT+SYEAR=`<Input Parameter>`     | `<Valid Wh value>`   |                                               | `OK` or `AT_PARAM_ERROR` |
+
+**Examples**:
+
+```
+AT+SYEAR?
+
++SYEAR:Get/set current yearly production so far
+OK
+
+AT+SYEAR=?
+
++SYEAR=360410
+OK
+
+AT+SYEAR=462300
+462300
+
+OK
+```
+
+[Back](#content)    
+
+----
+
+## AT+RTC
+
+Description: Set/Get the RTC time and data
+
+This command allows the user to check the RTC date and time and set it.    
+
+| Command                       | Input Parameter | Return Value                                               | Return Code              |
+| ----------------------------- | --------------- | ---------------------------------------------------------- | ------------------------ |
+| ATC+RTC?                      | -               | `ATC+RTC:"Get/Set RTC time and date"` | `OK`               |
+| ATC+RTC=?                     | -               | *<date & time>*                                            | `OK`                     |
+| ATC+RTC=`<Input Parameter>`   | *<date & time>* | -                                                        | `OK` or `AT_PARAM_ERROR` |
+
+**Examples**:
+
+```log
+ATC+RTC?
+
+ATC+RTC:"Get/Set RTC time and date"
+
+OK
+
+ATC+RTC=?
+
+2023.07.02 20:44:45
+
+OK
+
+ATC+RTC=2023:7:2:20:49
 
 OK
 ```
