@@ -168,7 +168,7 @@ void start_check_serial(void);
 // Display stuff
 #include <SSD1306Wire.h>
 void init_display(void);
-void write_display(int power, int collected);
+void write_display(int power, int collected, int monthly);
 extern bool isSuccess;
 
 // Solar Panel stuff

@@ -141,8 +141,8 @@ void loop()
 
 		while (!isSuccess)
 		{
-			myLog_d("Heap: %ld", ESP.getFreeHeap());
-			myLog_d("Stack: %ld", uxTaskGetStackHighWaterMark(NULL));
+			// myLog_d("Heap: %ld", ESP.getFreeHeap());
+			// myLog_d("Stack: %ld", uxTaskGetStackHighWaterMark(NULL));
 
 			delay(500);
 			isSuccess = smaReader.getValues(2, keys, values);
@@ -156,8 +156,6 @@ void loop()
 				{
 					values[0] = 0;
 				}
-
-				write_display(values[0], values[1]);
 
 				myLog_d("Current power %d W - Collected today %d Wh", values[0], values[1]);
 				BLE_PRINTF("Current power %d W - Collected today %d Wh", values[0], values[1]);
@@ -272,6 +270,8 @@ void loop()
 					myLog_d("Reset daily_added");
 					daily_added = false;
 				}
+
+				write_display(values[0], values[1], g_month_energy);
 
 				lmh_error_status result = send_lora_packet(g_solution_data.getBuffer(), g_solution_data.getSize());
 				switch (result)
@@ -456,7 +456,7 @@ void loop()
 
 		if (!isSuccess)
 		{
-			write_display(values[0], values[1]);
+			write_display(values[0], values[1], g_month_energy);
 		}
 
 		digitalWrite(LED_GREEN, LOW);
