@@ -26,9 +26,11 @@ The RTC was added to have the proper times to update and save the daily, monthly
 The original visualization on a Datacake Dashboard [Around my House](https://app.datacake.de/dashboard/d/b6acccc0-2264-42d4-aec9-94148d7eb76f) was replaced with a local Grafana and InfluxDB installation on a Raspberry Pi4. 
 Datacake is still my prefered platform, but without a paid plan the data retention time is limited and makes it impossible to get a bigger overview of the solar production over months (or even years).    
 
-_**Visualization image to be added**_ 
-<!--![Datacake](./assets/Datacake.png)    
---->
+Grafana current and daily values
+![Grafana current and daily values](./assets/grafana.png)    
+
+Grafana monthly values
+![Grafana monthly values](./assets/grafana-monthly.png)    
 
 _**REMARK**_
 This project is made with PlatformIO!
