@@ -24,6 +24,9 @@ uint8_t daily_production_addr = 0x00;
 uint8_t monthly_production_addr = 0x10;
 uint8_t test_addr = 0x20;
 
+/** Flag if RTC is available*/
+bool has_rtc = true;
+
 /**
  * @brief Initialize the RTC
  *
@@ -52,8 +55,13 @@ bool init_rak12002(void)
 
 	if ((g_date_time.year < 2022) || (g_date_time.year > 2100))
 	{
-		myLog_e("RTC not set or not available");
+		myLog_e("RTC not set");
 		rtc_has_time = false;
+	}
+	if ((g_date_time.year == 2165) || (g_date_time.month == 165))
+	{
+		myLog_e("RTC not not available");
+		has_rtc = false;
 	}
 	myLog_d("%d.%02d.%02d %d:%02d:%02d", g_date_time.year, g_date_time.month, g_date_time.date, g_date_time.hour, g_date_time.minute, g_date_time.second);
 
@@ -99,7 +107,7 @@ bool write_rak12002_eeprom(uint8_t address, uint8_t *data, uint8_t size)
 			delay(100);
 		}
 	}
-	
+
 	rtc.useEEPROM(false);
 	delay(100);
 	rtc.useEEPROM(true);
@@ -163,9 +171,16 @@ bool read_rak12002_eeprom(uint8_t address, uint8_t *data, uint8_t size)
  */
 void set_rak12002(uint16_t year, uint8_t month, uint8_t date, uint8_t hour, uint8_t minute)
 {
-	uint8_t weekday = (date + (uint16_t)((2.6 * month) - 0.2) - (2 * (year / 100)) + year + (uint16_t)(year / 4) + (uint16_t)(year / 400)) % 7;
-	myLog_d("RTC", "Calculated weekday is %d", weekday);
-	rtc.setTime(year, month, weekday, date, hour, minute, 0);
+	if (has_rtc)
+	{
+		uint8_t weekday = (date + (uint16_t)((2.6 * month) - 0.2) - (2 * (year / 100)) + year + (uint16_t)(year / 4) + (uint16_t)(year / 400)) % 7;
+		myLog_d("RTC", "Calculated weekday is %d", weekday);
+		rtc.setTime(year, month, weekday, date, hour, minute, 0);
+	}
+	else
+	{
+		rtc.setTime(2023, 10, 1, 21, 17, 33, 0);
+	}
 }
 
 /**
@@ -175,11 +190,24 @@ void set_rak12002(uint16_t year, uint8_t month, uint8_t date, uint8_t hour, uint
  */
 void read_rak12002(void)
 {
-	g_date_time.year = rtc.getYear();
-	g_date_time.month = rtc.getMonth();
-	g_date_time.weekday = rtc.getWeekday();
-	g_date_time.date = rtc.getDate();
-	g_date_time.hour = rtc.getHour();
-	g_date_time.minute = rtc.getMinute();
-	g_date_time.second = rtc.getSecond();
+	if (has_rtc)
+	{
+		g_date_time.year = rtc.getYear();
+		g_date_time.month = rtc.getMonth();
+		g_date_time.weekday = rtc.getWeekday();
+		g_date_time.date = rtc.getDate();
+		g_date_time.hour = rtc.getHour();
+		g_date_time.minute = rtc.getMinute();
+		g_date_time.second = rtc.getSecond();
+	}
+	else
+	{
+		g_date_time.year = 2023;
+		g_date_time.month = 10;
+		g_date_time.weekday = 1;
+		g_date_time.date = 21;
+		g_date_time.hour = 17;
+		g_date_time.minute = 36;
+		g_date_time.second = 0;
+	}
 }

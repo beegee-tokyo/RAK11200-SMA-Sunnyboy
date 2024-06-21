@@ -119,8 +119,6 @@ void write_display(int power, int collected, int monthly)
 		break;
 	}
 
-	BLE_PRINTF("txt start %d", x_pos);
-
 	oled_disp.setFont(Monospaced_bold_10);
 	oled_disp.drawString(x_pos, 0, disp_line1);
 

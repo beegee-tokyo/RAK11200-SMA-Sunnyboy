@@ -17,7 +17,7 @@
 /** ESP32 preferences */
 Preferences power_prefs;
 
-bool init_prefs(void)
+bool init_rak15006(void)
 {
 	power_prefs.begin("Power", false);
 
@@ -34,7 +34,7 @@ bool init_prefs(void)
 	return true;
 }
 
-void read_prefs(uint32_t memaddr, uint8_t *obj, uint16_t size)
+void read_rak15006(uint32_t memaddr, uint8_t *obj, uint16_t size)
 {
 	bool valid_addr = false;
 	power_prefs.begin("Power", true);
@@ -68,7 +68,7 @@ void read_prefs(uint32_t memaddr, uint8_t *obj, uint16_t size)
 	}
 }
 
-bool write_prefs(uint32_t memaddr, uint8_t *obj, uint16_t size)
+bool write_rak15006(uint32_t memaddr, uint8_t *obj, uint16_t size)
 {
 	bool valid_addr = false;
 	power_prefs.begin("Power", false);

@@ -28,6 +28,7 @@
 #include <ArduinoJson.h>
 #include <SMAReader.h>
 #include <CayenneLPP.h>
+#include <ESP32Ping.h>
 
 // WiFi stuff
 #define WLANSSID "MyHomeLan"
@@ -210,9 +211,9 @@ bool init_rak15005(void);
 void read_rak15005(uint32_t memaddr, uint8_t *obj, uint16_t size);
 bool write_rak15005(uint32_t memaddr, uint8_t *obj, uint16_t size);
 
-bool init_prefs(void);
-void read_prefs(uint32_t memaddr, uint8_t *obj, uint16_t size);
-bool write_prefs(uint32_t memaddr, uint8_t *obj, uint16_t size);
+bool init_rak15006(void);
+void read_rak15006(uint32_t memaddr, uint8_t *obj, uint16_t size);
+bool write_rak15006(uint32_t memaddr, uint8_t *obj, uint16_t size);
 
 bool init_fram(void);
 void read_fram(uint32_t memaddr, uint8_t *obj, uint16_t size);

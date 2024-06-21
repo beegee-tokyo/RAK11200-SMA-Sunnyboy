@@ -6,6 +6,8 @@
 
 /** Address of SMA Sunnyboy Inverter */
 IPAddress inverterIP(192, 168, 1, 185);
+IPAddress alt1_ip(192, 168, 1, 6);
+IPAddress alt2_ip(192, 168, 1, 185);
 
 /** SMA value reader */
 SMAReader smaReader(inverterIP, SMAREADER_USER, INVERTERPWD, 5);
@@ -62,6 +64,7 @@ void setup()
 
 	init_fram();
 
+	myLog_d("Read saved values from FRAM");
 	fram_val.val_32 = 0;
 	read_fram(g_month_energy_addr, fram_val.val_8, 4);
 	g_month_energy = fram_val.val_32;
@@ -84,26 +87,69 @@ void setup()
 		write_fram(g_year_energy_addr, fram_val.val_8, 4);
 	}
 
+	myLog_d("Read RTC");
 	read_rak12002();
 
+	myLog_d("Init display");
 	init_display();
 
+	myLog_d("Init Battery");
 	init_batt();
 
+	myLog_d("Init Wifi");
 	init_wifi();
+
+	myLog_d("Try init OTA");
 	if (g_has_credentials)
 	{
 		initOTA();
 	}
 
+#ifndef _NO_LORA_
 	// Initialize RAK13300 module
 	if (init_lorawan() != 0)
 	{
 		myLog_e("Failed to initialize RAK13300");
 	}
-
+#else
+	g_lpwan_has_joined = true;
+#endif
 	// Initialize BLE interface
 	init_ble();
+
+	// Check IP address to SMA converter
+	myLog_d("Checking SMA IP address");
+	myLog_d("Current IP %d.%d.%d.%d", inverterIP[0], inverterIP[1], inverterIP[2], inverterIP[3]);
+	bool success = false;
+	if (g_wifi_connected)
+	{
+		myLog_d("Ping %d.%d.%d.%d", alt2_ip[0], alt2_ip[1], alt2_ip[2], alt2_ip[3]);
+		success = Ping.ping(alt2_ip, 5);
+		if (success)
+		{
+			myLog_d("Found SMA on IP 192.168.1.185");
+			smaReader.setInverterIP(alt2_ip);
+			success = true;
+		}
+		else
+		{
+			myLog_d("Ping %d.%d.%d.%d", alt1_ip[0], alt1_ip[1], alt1_ip[2], alt1_ip[3]);
+			success = Ping.ping(alt1_ip, 5);
+			if (success)
+			{
+				myLog_d("Found SMA on IP 192.168.1.6");
+				smaReader.setInverterIP(alt1_ip);
+			}
+		}
+		if (!success)
+		{
+			myLog_e("Failed to find SMA inverter");
+		}
+	}
+	else
+	{
+		myLog_d("No WiFi connection yet");
+	}
 }
 
 /**
@@ -272,7 +318,7 @@ void loop()
 				}
 
 				write_display(values[0], values[1], g_month_energy);
-
+#ifndef _NO_LORA_
 				lmh_error_status result = send_lora_packet(g_solution_data.getBuffer(), g_solution_data.getSize());
 				switch (result)
 				{
@@ -289,6 +335,7 @@ void loop()
 					BLE_PRINTF("Packet error, too big to send with current DR");
 					break;
 				}
+#endif
 			}
 			else if (values[0] >= 3000)
 			{
@@ -412,6 +459,7 @@ void loop()
 						}
 						if (send_anyway)
 						{
+#ifndef _NO_LORA_
 							lmh_error_status result = send_lora_packet(g_solution_data.getBuffer(), g_solution_data.getSize());
 							switch (result)
 							{
@@ -428,9 +476,40 @@ void loop()
 								BLE_PRINTF("Packet error, too big to send with current DR");
 								break;
 							}
+#endif
 						}
 					}
 
+					// Test code, check IP of SMA is valid
+					bool success = false;
+
+					myLog_d("Checking SMA IP address");
+					myLog_d("Current IP %d.%d.%d.%d", inverterIP[0], inverterIP[1], inverterIP[2], inverterIP[3]);
+					// if (inverterIP[3] == 6)
+					// {
+					myLog_d("Ping %d.%d.%d.%d", alt2_ip[0], alt2_ip[1], alt2_ip[2], alt2_ip[3]);
+					success = Ping.ping(alt2_ip, 5);
+					if (success)
+					{
+						myLog_d("Found SMA on IP 192.168.1.185");
+						smaReader.setInverterIP(alt2_ip);
+						success = true;
+					}
+					// }
+					if (!success)
+					{
+						myLog_d("Ping %d.%d.%d.%d", alt1_ip[0], alt1_ip[1], alt1_ip[2], alt1_ip[3]);
+						success = Ping.ping(alt1_ip, 5);
+						if (success)
+						{
+							myLog_d("Found SMA on IP 192.168.1.6");
+							smaReader.setInverterIP(alt1_ip);
+						}
+					}
+					if (!success)
+					{
+						myLog_e("Failed to find SMA inverter");
+					}
 					break;
 				}
 				// Retry in 15 seconds

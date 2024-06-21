@@ -17,13 +17,13 @@ bool init_fram(void)
 	if (init_rak15005())
 	{
 		fram_type = 1;
-		myLog_d("RTC", "Found FRAM");
+		myLog_d("Found FRAM RAK15005");
 		return true;
 	}
-	else if (init_prefs())
+	else if (init_rak15006())
 	{
 		fram_type = 2;
-		myLog_d("RTC", "Using preferences");
+		myLog_d("Found FRAM RAK15006");
 		return true;
 	}
 	return false;
@@ -37,7 +37,7 @@ void read_fram(uint32_t memaddr, uint8_t *obj, uint16_t size)
 	}
 	if (fram_type == 2)
 	{
-		read_prefs(memaddr, obj, size);
+		read_rak15006(memaddr, obj, size);
 	}
 }
 
@@ -49,7 +49,7 @@ bool write_fram(uint32_t memaddr, uint8_t *obj, uint16_t size)
 	}
 	if (fram_type == 2)
 	{
-		return write_prefs(memaddr, obj, size);
+		return write_rak15006(memaddr, obj, size);
 	}
 	return false;
 }
